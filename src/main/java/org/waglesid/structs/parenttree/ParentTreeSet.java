@@ -61,10 +61,12 @@ public class ParentTreeSet<K, V> {
     }
 
     public List<V> getFullTree(V data) {
-        final Set<V> set = new HashSet<>();
-        set.addAll(getParentTreeAt(data));
-        set.addAll(getTreeAt(data));
-        return new ArrayList<>(set);
+        final List<V> parentTree = getParentTreeAt(data);
+        final List<V> childTree = getTreeAt(data);
+        final List<V> fullTree = new ArrayList<>(parentTree.size() + childTree.size());
+        fullTree.addAll(parentTree);
+        fullTree.addAll(childTree);
+        return fullTree;
     }
 
     public List<V> getParentTreeAt(V data) {
