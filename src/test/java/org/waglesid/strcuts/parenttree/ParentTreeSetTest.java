@@ -73,6 +73,44 @@ public class ParentTreeSetTest {
         assertThat(treeSet.childrenOf(parent), hasItems(child3, child4));
         assertThat(treeSet.childrenOf(parent), not(hasItems(notChild)));
     }
+
+
+    @Test
+    public void parentTree() {
+        final ParentTreeSet<Integer, TestData> treeSet = new ParentTreeSet<>(TestData::keyFunc);
+        final TestData one = new TestData(1, "One");
+        final TestData two = new TestData(2, "Two");
+        final TestData three = new TestData(3, "Three");
+        final TestData four = new TestData(4, "Four");
+        treeSet.addParent(two, one);
+        treeSet.addParent(three, two);
+        treeSet.addParent(four, two);
+
+        assertNull(treeSet.parentOf(one));
+        assertEquals(one, treeSet.parentOf(two));
+        assertEquals(two, treeSet.parentOf(three));
+        assertEquals(two, treeSet.parentOf(four));
+
+        assertEquals(2, treeSet.getParentTreeAt(three).size());
+        assertThat(treeSet.getParentTreeAt(three), hasItems(one, two));
+    }
+
+    @Test
+    public void childTree() {
+        final ParentTreeSet<Integer, TestData> treeSet = new ParentTreeSet<>(TestData::keyFunc);
+        final TestData one = new TestData(1, "One");
+        final TestData two = new TestData(2, "Two");
+        final TestData three = new TestData(3, "Three");
+        final TestData four = new TestData(4, "Four");
+        treeSet.addParent(two, one);
+        treeSet.addParent(three, two);
+        treeSet.addParent(four, two);
+
+        assertEquals(4, treeSet.getTreeAt(one).size());
+        assertThat(treeSet.getTreeAt(one), hasItem(one));
+        assertThat(treeSet.getTreeAt(one), hasItem(two));
+        assertThat(treeSet.getTreeAt(one), hasItems(three, four));
+    }
 }
 
 class TestData {

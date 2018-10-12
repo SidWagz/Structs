@@ -63,9 +63,12 @@ class ParentTree<T> {
         final List<T> list = children(data);
         if (list == null || list.isEmpty())
             return Collections.emptyList();
-        for (T t: list)
-            list.addAll(allChildren(t));
-        return list;
+        final List<T> returnList = new ArrayList<>();
+        for (T t: list) {
+            returnList.add(t);
+            returnList.addAll(allChildren(t));
+        }
+        return returnList;
     }
 
     public List<T> siblings(T data) {
