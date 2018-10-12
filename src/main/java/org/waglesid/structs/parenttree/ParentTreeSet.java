@@ -103,4 +103,9 @@ public class ParentTreeSet<K, V> {
         final K key = keyFunc.apply(data);
         return tree.children(key).stream().map(map::get).collect(Collectors.toList());
     }
+
+    public List<V> siblingsOf(V data) {
+        final K key = keyFunc.apply(data);
+        return tree.siblings(key).stream().map(map::get).collect(Collectors.toList());
+    }
 }

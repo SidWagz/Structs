@@ -2,8 +2,10 @@ package org.waglesid.structs.parenttree;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -53,10 +55,15 @@ class ParentTree<T> {
         return list;
     }
 
-    public List<T> children(T data) {
-        final TreeNode<T> n = map.get(data);
+    public List<T> children(TreeNode<T> n) {
+        if (n == null)
+            return Collections.emptyList();
         return n.getChildren().stream()
                 .map(TreeNode::getData).collect(Collectors.toList());
+    }
+
+    public List<T> children(T data) {
+        return children(map.get(data));
     }
 
     public List<T> allChildren(T data) {
@@ -73,6 +80,10 @@ class ParentTree<T> {
 
     public List<T> siblings(T data) {
         final TreeNode<T> n = map.get(data);
-        return n.getParent() == null ? Collections.emptyList() : new ArrayList(n.getParent().getChildren());
+        if (n.getParent() == null)
+            return Collections.emptyList();
+        final Set<T> set = new HashSet<>(children(n.getParent()));
+        set.remove(data);
+        return new ArrayList<>(set);
     }
 }
