@@ -1,14 +1,12 @@
-package org.waglesid.structs.parenttree;
+package org.waglesid.strcuts.parenttree;
 
 import org.junit.Test;
+import org.waglesid.structs.parenttree.ParentTreeSet;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import static org.junit.matchers.JUnitMatchers.*;
 
 public class ParentTreeSetTest {
 
